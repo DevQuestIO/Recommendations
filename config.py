@@ -1,0 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+LEETCODE_AUTH_COOKIE = os.getenv("LEETCODE_AUTH_COOKIE")
+

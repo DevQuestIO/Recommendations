@@ -1,0 +1,6 @@
+.env
+__pycache__
+chroma_data
+venv
+pyproject.toml
+.DS_Store
