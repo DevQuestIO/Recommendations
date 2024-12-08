@@ -3,7 +3,7 @@ from config import LEETCODE_AUTH_COOKIE
 from suggest import suggest_questions
 
 
-def fetch_solved_questions():
+def fetch_all_questions():
     url = "https://leetcode.com/graphql"
     # headers = {
     #     "Content-Type": "application/json",

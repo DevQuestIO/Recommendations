@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from typing import List, Dict
 from leetcode_api import (
-    fetch_solved_questions,
+    fetch_all_questions,
     fetch_last_solved_questions,
     suggest_similar_questions,
 )
@@ -40,9 +40,12 @@ app.add_middleware(
 
 
 @app.get("/api/v1/suggestions", response_model=List[Dict[str, str]])
-async def fetch_suggestions():
+async def fetch_suggestions(username: str = Query(...)):
+    if not username:
+        raise HTTPException(status_code=400, detail="Username is required")
     try:
-        solved_questions = fetch_solved_questions()
+        print(f"Fetching suggestions for user: {username}")
+        solved_questions = fetch_all_questions()
         print("Stage 1 cleared")
         question_titles = [q["title"] for q in solved_questions]
         print("Stage 2 cleared")
@@ -50,7 +53,7 @@ async def fetch_suggestions():
         print("Stage 3 cleared")
         store_embeddings(solved_questions, embeddings)
         print("Stage 4 cleared")
-        last_solved_data = fetch_last_solved_questions("kalpessh_patil", 1)
+        last_solved_data = fetch_last_solved_questions(username, 1)
         print("Stage 5 cleared")
         suggested_questions = suggest_similar_questions(last_solved_data)
         print(suggested_questions)
